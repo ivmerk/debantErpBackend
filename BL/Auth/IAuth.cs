@@ -1,4 +1,5 @@
 using DebantErp.Dtos;
+using DebantErp.Rdos;
 
 namespace DebantErp.BL.Auth
 {
@@ -6,6 +7,7 @@ namespace DebantErp.BL.Auth
     {
         Task<int> CreateUser(RegisterUserDto model);
         Task<int> Authentificate(string email, string password, bool rememberMe);
+        Task<UserRdo> GetUser(int id);
         Task ValidateEmail(string email);
     }
 }

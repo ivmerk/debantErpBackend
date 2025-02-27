@@ -24,7 +24,7 @@ namespace DebantErp.DAL.Implementations
         public async Task<UserModel> GetUser(int id)
         {
             var result = await _dbHelper.QueryAsync<UserModel>(
-                "SELECT * FROM app_user WHERE id = @id",
+                "SELECT id, first_name AS FirstName, last_name AS LastName, phone, role, email, status FROM app_user WHERE id = @id",
                 new { id }
             );
             return result.FirstOrDefault() ?? new UserModel();

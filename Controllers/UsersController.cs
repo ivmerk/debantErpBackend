@@ -3,12 +3,12 @@ using DebantErp.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("register")]
-public class RegisterController : ControllerBase
+[Route("users")]
+public class UsersController : ControllerBase
 {
     private readonly IAuth _auth;
 
-    public RegisterController(IAuth auth)
+    public UsersController(IAuth auth)
     {
         _auth = auth;
     }
@@ -29,10 +29,10 @@ public class RegisterController : ControllerBase
         return Ok(userId);
     }
 
-    /*[HttpGet("{id}")]*/
-    /*public async Task<IActionResult> GetUser(int id)*/
-    /*{*/
-    /*    var user = await _auth.GetUser(id);*/
-    /*    return Ok(user);*/
-    /*}*/
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetUser(int id)
+    {
+        var user = await _auth.GetUser(id);
+        return Ok(user);
+    }
 }

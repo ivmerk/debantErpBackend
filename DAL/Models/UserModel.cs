@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DebantErp.DAL.Models
 {
@@ -6,7 +7,11 @@ namespace DebantErp.DAL.Models
     {
         [Key]
         public int? Id { get; set; }
+
+        [Column("first_name")]
         public string FirstName { get; set; } = null!;
+
+        [Column("last_name")]
         public string LastName { get; set; } = null!;
         public string Phone { get; set; } = null!;
         public UserRoleEnum Role { get; set; }

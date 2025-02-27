@@ -1,6 +1,7 @@
 using DebantErp.DAL.Interfaces;
 using DebantErp.DAL.Models;
 using DebantErp.Dtos;
+using DebantErp.Rdos;
 
 namespace DebantErp.BL.Auth
 {
@@ -46,6 +47,23 @@ namespace DebantErp.BL.Auth
                 return user.Id ?? -1;
             }
             throw new AuthorizationException();
+        }
+
+        public async Task<UserRdo> GetUser(int id)
+        {
+            var user = await _authDAL.GetUser(id);
+
+            var userRdo = new UserRdo
+            {
+                Id = user.Id ?? -1,
+                FirstName = user.FirstName ?? "",
+                LastName = user.LastName ?? "",
+                Phone = user.Phone ?? "",
+                Role = user.Role,
+                Email = user.Email ?? "",
+                Status = user.Status,
+            };
+            return userRdo;
         }
 
         public async Task ValidateEmail(string email)
