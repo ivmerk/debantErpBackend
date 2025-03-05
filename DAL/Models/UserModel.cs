@@ -19,5 +19,7 @@ namespace DebantErp.DAL.Models
         public string Password { get; set; } = null!;
         public string Salt { get; set; } = null!;
         public UserStatusEnum Status { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

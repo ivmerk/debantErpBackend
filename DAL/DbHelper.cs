@@ -17,6 +17,23 @@ namespace DebantErp.DAL
             _logger = logger;
         }
 
+        public async Task<int> ExecuteAsync(string sql, object model)
+        {
+            try
+            {
+                using (var connection = new NpgsqlConnection(DbHelper.ConnectionString))
+                {
+                    await connection.OpenAsync();
+                    return await connection.ExecuteAsync(sql, model);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ошибка при выполнении SQL: {Sql}", sql);
+                return -1;
+            }
+        }
+
         public async Task<int> ExecuteScalarAsync(string sql, object model)
         {
             try

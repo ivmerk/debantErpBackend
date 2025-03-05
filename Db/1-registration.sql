@@ -7,7 +7,9 @@ create table if not exists  app_user (
     email varchar(50),
     password varchar(100),
     salt varchar(50),
-    status int
+    status int,
+    created_at timestamptz default now(),
+    updated_at timestamptz default now()
 );
 
 create table if not exists person  (

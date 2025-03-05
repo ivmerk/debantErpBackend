@@ -36,5 +36,12 @@ namespace DebantErp.DAL.Implementations
                 "INSERT INTO app_user ( first_name, last_name, phone, role, email, password, salt, status) VALUES (@firstName, @lastName, @phone, @role, @email, @password,  @salt, @status)";
             return await _dbHelper.ExecuteScalarAsync(sql, model);
         }
+
+        public async Task<int> UpdateUser(UserModel model)
+        {
+            string sql =
+                "UPDATE app_user SET first_name = @firstName, last_name = @lastName, phone = @phone, role = @role, email = @email, password = @password, salt = @salt, status = @status WHERE id = @id";
+            return await _dbHelper.ExecuteAsync(sql, model);
+        }
     }
 }

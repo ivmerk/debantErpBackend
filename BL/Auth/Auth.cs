@@ -32,6 +32,8 @@ namespace DebantErp.BL.Auth
                 Email = dto.Email ?? "",
                 Salt = Guid.NewGuid().ToString(),
                 Status = UserStatusEnum.NeedToApprove,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
             };
             model.Password = _encrypt.HashPassword(dto.Password ?? "", model.Salt);
 
@@ -52,7 +54,6 @@ namespace DebantErp.BL.Auth
         public async Task<UserRdo> GetUser(int id)
         {
             var user = await _authDAL.GetUser(id);
-
             var userRdo = new UserRdo
             {
                 Id = user.Id ?? -1,
@@ -62,7 +63,16 @@ namespace DebantErp.BL.Auth
                 Role = user.Role,
                 Email = user.Email ?? "",
                 Status = user.Status,
+                CreatedAt = user.CreatedAt,
+                UpdatedAt = user.UpdatedAt,
             };
+            return userRdo;
+        }
+
+        public async Task<UserRdo> UpdateUser(int id, UpdateUserDto dto)
+        {
+            var user = await GetUser(id);
+            var updatedUser = new UserModel { };
             return userRdo;
         }
 

@@ -35,4 +35,19 @@ public class UsersController : ControllerBase
         var user = await _auth.GetUser(id);
         return Ok(user);
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserDto dto)
+    {
+        if (dto == null)
+        {
+            return BadRequest("Данные отсутствуют.");
+        }
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var user = await _auth.UpdateUser(id, dto);
+        return Ok(user);
+    }
 }

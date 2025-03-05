@@ -8,6 +8,7 @@ namespace DebantErp.BL.Auth
         Task<int> CreateUser(RegisterUserDto model);
         Task<int> Authentificate(string email, string password, bool rememberMe);
         Task<UserRdo> GetUser(int id);
+        Task<UserRdo> UpdateUser(int id, UpdateUserDto dto);
         Task ValidateEmail(string email);
     }
 }
