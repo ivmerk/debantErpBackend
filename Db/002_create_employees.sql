@@ -7,9 +7,9 @@ create table if not exists employees (
   phone varchar(50) not null,
   tax_code varchar(50) unique not null,
   gender gender_enum not null,
+  is_actual boolean default true,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
-  is_actual boolean
 )
 
 create type gender_enum as enum ('male', 'female');
