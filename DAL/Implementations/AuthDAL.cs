@@ -40,7 +40,7 @@ namespace DebantErp.DAL.Implementations
         public async Task<int> UpdateUser(UserModel model)
         {
             string sql =
-                "UPDATE app_user SET first_name = @firstName, last_name = @lastName, phone = @phone, role = @role, email = @email, password = @password, salt = @salt, status = @status WHERE id = @id";
+                "UPDATE app_user SET first_name = @firstName, last_name = @LastName, phone = @phone, role = @role, email = @email, status = @status, updated_at = CAST(@UpdatedAt AS timestamp with time zone) WHERE id = @id";
             return await _dbHelper.ExecuteAsync(sql, model);
         }
     }

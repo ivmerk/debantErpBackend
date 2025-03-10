@@ -69,11 +69,22 @@ namespace DebantErp.BL.Auth
             return userRdo;
         }
 
-        public async Task<UserRdo> UpdateUser(int id, UpdateUserDto dto)
+        public async Task<int> UpdateUser(int id, UpdateUserDto dto)
         {
             var user = await GetUser(id);
-            var updatedUser = new UserModel { };
-            return userRdo;
+            var updatedUser = new UserModel
+            {
+                Id = id,
+                FirstName = dto.FirstName ?? user.FirstName,
+                LastName = dto.LastName ?? user.LastName,
+                Phone = dto.Phone ?? user.Phone,
+                Role = dto.Role ?? user.Role,
+                Email = dto.Email ?? user.Email,
+                Status = dto.Status ?? user.Status,
+                UpdatedAt = DateTime.Now,
+            };
+
+            return await _authDAL.UpdateUser(updatedUser);
         }
 
         public async Task ValidateEmail(string email)

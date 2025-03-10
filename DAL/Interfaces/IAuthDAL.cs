@@ -7,5 +7,6 @@ namespace DebantErp.DAL.Interfaces
         Task<UserModel> GetUser(string email);
         Task<UserModel> GetUser(int id);
         Task<int> CreateUser(UserModel user);
+        Task<int> UpdateUser(UserModel user);
     }
 }

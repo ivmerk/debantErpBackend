@@ -47,7 +47,7 @@ public class UsersController : ControllerBase
         {
             return BadRequest(ModelState);
         }
-        var user = await _auth.UpdateUser(id, dto);
-        return Ok(user);
+        var userId = await _auth.UpdateUser(id, dto);
+        return Ok(userId);
     }
 }
