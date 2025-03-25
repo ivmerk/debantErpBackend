@@ -2,8 +2,7 @@ create table if not exists specialities (
     id serial primary key,
     name varchar(50) unique not null,
     is_actual boolean default true,
-    created_at timestamptz default now(),
-
+    created_at timestamptz default now()
 );
 
 create table if not exists employee_specialities (
@@ -17,7 +16,7 @@ create table if not exists employee_specialities (
     unique(employee_id, speciality_id)
 );
 
-create function update_modified_column() 
+create function update_modified_column_specialities() 
 returns trigger as $$
 begin
     new.updated_at = now();
@@ -26,6 +25,6 @@ end;
 $$ language 'plpgsql';
 
 create trigger set_timestamp
-before update on employee_specialties
+before update on employee_specialities
 for each row
-execute function update_modified_column();
+execute function update_modified_column_specialities();

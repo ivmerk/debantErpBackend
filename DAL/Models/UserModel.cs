@@ -8,30 +8,38 @@ namespace DebantErp.DAL.Models
         [Key]
         public int? Id { get; set; }
 
-        [Required, Column("first_name")]
+        [Required]
+        [Column("first_name")]
         public string FirstName { get; set; } = null!;
 
-        [Required, Column("last_name")]
+        [Required]
+        [Column("last_name")]
         public string LastName { get; set; } = null!;
 
-        [Required, Column("phone")]
+        [Required]
+        [Column("phone")]
         public string Phone { get; set; } = null!;
 
         public UserRoleEnum Role { get; set; } = UserRoleEnum.User;
 
-        [Required, Column("email")]
+        [Required]
+        [Column("email")]
         public string Email { get; set; } = null!;
 
-        [Required, Column("password")]
+        [Required]
+        [Column("password")]
         public string Password { get; set; } = null!;
 
-        [Required, Column("salt")]
+        [Required]
+        [Column("salt")]
         public string Salt { get; set; } = null!;
 
-        [Required, Column("gender")]
+        [Required]
+        [Column("gender")]
         public GenderEnum Gender { get; set; }
 
-        [Required, Column("status")]
+        [Required]
+        [Column("status")]
         public UserStatusEnum Status { get; set; }
 
         [Column("created_at")]
