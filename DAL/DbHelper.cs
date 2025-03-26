@@ -1,7 +1,4 @@
-using System;
 using Dapper;
-using DebantErp.DAL.Models;
-using Microsoft.Extensions.Logging;
 using Npgsql;
 
 namespace DebantErp.DAL

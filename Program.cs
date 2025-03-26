@@ -1,4 +1,5 @@
 using System.Text;
+using DebantErp.MockData;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -48,5 +49,12 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+var encryptService = app.Services.GetRequiredService<DebantErp.BL.Auth.IEncrypt>();
+var seeder = new MockDataSeeder(
+    "Server=localhost;Port=5432;Database=debanterp;Username=admin;Password=test;",
+    encryptService
+);
+await seeder.SeedAsync();
 
 app.Run();
