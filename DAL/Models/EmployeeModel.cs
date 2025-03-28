@@ -28,5 +28,10 @@ namespace DebantErp.DAL.Models
 
         [Column("updated_at")]
         public DateTime UpdatedAt { get; set; }
+
+        [ForeignKey("EmployeeDetails")]
+        public int? EmployeeDetailsId { get; set; }
+
+        public EmployeeDetailsModel? EmployeeDetails { get; set; }
     }
 }

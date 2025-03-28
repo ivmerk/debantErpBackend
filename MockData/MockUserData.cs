@@ -18,6 +18,11 @@ public class MockUserData
     public async Task InsertAsync()
     {
         using var connection = new NpgsqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        var userCount = await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM users");
+        if (userCount > 0)
+            return;
 
         var salt = Guid.NewGuid().ToString();
         var mockUsers = new List<UserModel>

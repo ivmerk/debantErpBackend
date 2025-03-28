@@ -16,10 +16,10 @@ namespace DebantErp.MockData
         public async Task SeedAsync()
         {
             var userMock = new MockUserData(_connectionString, _encrypt);
-            //var productMock = new MockProductData(_connectionString);
+            var employeeMock = new MockEmployeeData(_connectionString);
 
             await userMock.InsertAsync();
-            // await productMock.InsertAsync();
+            await employeeMock.InsertAsync();
 
             Console.WriteLine("Мок-данные добавлены!");
         }

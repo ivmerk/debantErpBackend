@@ -36,6 +36,9 @@ namespace DebantErp.DAL.Models
         [Column("picture")]
         public string Picture { get; set; } = null!;
 
+        [Column("employee_id")]
+        public int EmployeeId { get; set; }
+
         [Column("created_at")]
         public DateTime CreatedAt { get; set; }
 
