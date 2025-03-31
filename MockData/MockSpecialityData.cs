@@ -35,27 +35,16 @@ public class MockSpecialityData
 
         try
         {
-            var specialityIds = new List<int>();
+            string insertSpecialitiesSql =
+                @"
+                INSERT INTO specialities (name, is_actual) 
+                VALUES (@Name, @IsActual) 
+                ON CONFLICT (name) DO NOTHING 
+                RETURNING id";
 
-            foreach (var speciality in specialities)
-            {
-                string insertSpecialitySql =
-                    @"
-                    INSERT INTO specialities (name, is_actual) 
-                    VALUES (@Name, @IsActual) 
-                    ON CONFLICT (name) DO NOTHING 
-                    RETURNING id";
-
-                var id = await connection.ExecuteScalarAsync<int?>(
-                    insertSpecialitySql,
-                    new { Name = speciality.Name, IsActual = speciality.IsActual },
-                    transaction
-                );
-                if (id.HasValue)
-                {
-                    specialityIds.Add(id.Value);
-                }
-            }
+            var specialityIds = (
+                await connection.QueryAsync<int>(insertSpecialitiesSql, specialities, transaction)
+            ).ToList();
 
             if (!specialityIds.Any())
             {
@@ -67,6 +56,7 @@ public class MockSpecialityData
                     )
                 ).ToList();
             }
+
             // Получаем 10 случайных сотрудников
             string getEmployeesSql = "SELECT id FROM employees ORDER BY RANDOM() LIMIT 10";
             var employeeIds = (
