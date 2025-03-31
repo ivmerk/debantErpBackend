@@ -55,12 +55,19 @@ public class MockUserData
             },
         };
 
-        foreach (var user in mockUsers)
-            if (user != null)
-            {
-                string sql =
-                    "INSERT INTO users (first_name, last_name, phone, role, email, password, salt, status) VALUES (@firstName, @lastName, @phone, @role, @email, @password,  @salt, @status)";
-                await connection.ExecuteAsync(sql, user);
-            }
+        try
+        {
+            foreach (var user in mockUsers)
+                if (user != null)
+                {
+                    string sql =
+                        "INSERT INTO users (first_name, last_name, phone, role, email, password, salt, status) VALUES (@firstName, @lastName, @phone, @role, @email, @password,  @salt, @status)";
+                    await connection.ExecuteAsync(sql, user);
+                }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
 }
