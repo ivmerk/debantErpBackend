@@ -18,10 +18,14 @@ namespace DebantErp.MockData
             var userMock = new MockUserData(_connectionString, _encrypt);
             var employeeMock = new MockEmployeeData(_connectionString);
             var specialityMock = new MockSpecialityData(_connectionString);
+            var orderMock = new MockOrderData(_connectionString);
+            var productionOperationMock = new MockProductionOperation(_connectionString);
 
             await userMock.InsertAsync();
             await employeeMock.InsertAsync();
             await specialityMock.InsertAsync();
+            await orderMock.InsertAsync();
+            await productionOperationMock.InsertAsync();
 
             Console.WriteLine("Мок-данные добавлены!");
         }

@@ -8,7 +8,7 @@ namespace DebantErp.DAL.Models
         [Key]
         public int Id { get; set; }
 
-        [Required, MaxLength(255), Column("number")]
+        [Required, Column("number")]
         public string Number { get; set; } = null!;
 
         [Column("created_at")]

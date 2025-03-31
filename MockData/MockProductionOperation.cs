@@ -22,15 +22,25 @@ public class MockProductionOperation
         if (operationCount > 0)
             return;
 
-        var operations = new List<ProductionOperationModel>
+        var operations = new List<string>
         {
-            new ProductionOperationModel
-            {
-                Name = "Производство",
-                IsActual = true,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
-            },
+            "Порезка дна",
+            "Порезка петли",
+            "Порезка манжеты",
+            "Печать тела",
         };
+        try
+        {
+            foreach (var operation in operations)
+            {
+                string insertOperationSql =
+                    @"INSERT INTO production_operations (name) VALUES (@Name)";
+                await connection.ExecuteAsync(insertOperationSql, new { Name = operation });
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
 }
