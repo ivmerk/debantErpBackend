@@ -2,12 +2,10 @@ using DebantErp.DAL.Models;
 
 namespace DebantErp.DAL.Interfaces
 {
-    public interface IProductionRateDAL
+    public interface IProductionRateDAL : IBaseDAL<ProductionRateModel>
     {
-        List<ProductionRateModel> GetProductionRatesByProductOperationId(int productOperationId);
-        ProductionRateModel GetProductionRate(int id);
-        ProductionRateModel CreateProductionRate(ProductionRateModel productionRate);
-        ProductionRateModel UpdateProductionRate(ProductionRateModel productionRate);
-        int DeleteProductionRate(int id);
+        public Task<List<ProductionRateModel>> GetByProductionOperationId(
+            int productionOperationId
+        );
     }
 }

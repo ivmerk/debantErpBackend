@@ -9,6 +9,7 @@ namespace DebantErp.DAL.Models
         public int Id { get; set; }
 
         [ForeignKey("ProductionOperation")]
+        [Column("production_operation_id")]
         public int? ProductionOperationId { get; set; }
 
         [Column("is_actual")]
