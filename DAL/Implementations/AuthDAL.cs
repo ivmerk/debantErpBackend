@@ -12,7 +12,12 @@ namespace DebantErp.DAL.Implementations
             _dbHelper = dbHelper;
         }
 
-        public async Task<UserModel> GetUser(string email)
+        public Task<List<UserModel>> Get()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<UserModel> Get(string email)
         {
             var result = await _dbHelper.QueryAsync<UserModel>(
                 "SELECT * FROM users WHERE email = @email",
@@ -21,7 +26,7 @@ namespace DebantErp.DAL.Implementations
             return result.FirstOrDefault() ?? new UserModel();
         }
 
-        public async Task<UserModel> GetUser(int id)
+        public async Task<UserModel> Get(int id)
         {
             var result = await _dbHelper.QueryAsync<UserModel>(
                 "SELECT id, first_name AS FirstName, last_name AS LastName, phone, role, email, status FROM users WHERE id = @id",
@@ -30,18 +35,23 @@ namespace DebantErp.DAL.Implementations
             return result.FirstOrDefault() ?? new UserModel();
         }
 
-        public async Task<int> CreateUser(UserModel model)
+        public async Task<int> Create(UserModel model)
         {
             string sql =
                 "INSERT INTO users ( first_name, last_name, phone, role, email, password, salt, status) VALUES (@firstName, @lastName, @phone, @role, @email, @password,  @salt, @status)";
             return await _dbHelper.ExecuteScalarAsync(sql, model);
         }
 
-        public async Task<int> UpdateUser(UserModel model)
+        public async Task<int> Update(UserModel model)
         {
             string sql =
                 "UPDATE users SET first_name = @firstName, last_name = @LastName, phone = @phone, role = @role, email = @email, status = @status, updated_at = CAST(@UpdatedAt AS timestamp with time zone) WHERE id = @id";
             return await _dbHelper.ExecuteAsync(sql, model);
+        }
+
+        public Task<int> Delete(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

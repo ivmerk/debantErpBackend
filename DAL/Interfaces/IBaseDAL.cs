@@ -1,0 +1,12 @@
+namespace DebantErp.DAL.Interfaces
+{
+    public interface IBaseDAL<T>
+        where T : class
+    {
+        Task<List<T>> Get();
+        Task<T> Get(int id);
+        Task<int> Create(T model);
+        Task<int> Update(T model);
+        Task<int> Delete(int id);
+    }
+}

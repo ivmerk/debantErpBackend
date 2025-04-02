@@ -2,11 +2,8 @@ using DebantErp.DAL.Models;
 
 namespace DebantErp.DAL.Interfaces
 {
-    public interface IAuthDAL
+    public interface IAuthDAL : IBaseDAL<UserModel>
     {
-        Task<UserModel> GetUser(string email);
-        Task<UserModel> GetUser(int id);
-        Task<int> CreateUser(UserModel user);
-        Task<int> UpdateUser(UserModel user);
+        Task<UserModel> Get(string email);
     }
 }
