@@ -1,4 +1,4 @@
-namespace DebantErp.DAL.Interfaces
+namespace DebantErp.DAL
 {
     public interface IBaseDAL<T>
         where T : class

@@ -1,4 +1,4 @@
-using DebantErp.DAL.Interfaces;
+using DebantErp.DAL;
 using DebantErp.DAL.Models;
 using DebantErp.Dtos;
 using DebantErp.Rdos;
@@ -38,12 +38,12 @@ namespace DebantErp.BL.Auth
             model.Password = _encrypt.HashPassword(dto.Password ?? "", model.Salt);
 
             System.Console.WriteLine(model);
-            return await _authDAL.CreateUser(model);
+            return await _authDAL.Create(model);
         }
 
         public async Task<int> Authentificate(string email, string password, bool rememberMe)
         {
-            var user = await _authDAL.GetUser(email);
+            var user = await _authDAL.Get(email);
             if (user.Id != null)
             {
                 return user.Id ?? -1;
@@ -53,7 +53,7 @@ namespace DebantErp.BL.Auth
 
         public async Task<UserRdo> GetUser(int id)
         {
-            var user = await _authDAL.GetUser(id);
+            var user = await _authDAL.Get(id);
             var userRdo = new UserRdo
             {
                 Id = user.Id ?? -1,
@@ -84,12 +84,12 @@ namespace DebantErp.BL.Auth
                 UpdatedAt = DateTime.Now,
             };
 
-            return await _authDAL.UpdateUser(updatedUser);
+            return await _authDAL.Update(updatedUser);
         }
 
         public async Task ValidateEmail(string email)
         {
-            var user = await _authDAL.GetUser(email);
+            var user = await _authDAL.Get(email);
             if (user.Id != null)
             {
                 throw new DuplicateEmailException();

@@ -1,6 +1,6 @@
 using DebantErp.DAL.Models;
 
-namespace DebantErp.DAL.Interfaces
+namespace DebantErp.DAL
 {
     public interface IEmployeeSpecialityDAL : IBaseDAL<EmployeeSpecialityModel> { }
 }

@@ -10,12 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<DebantErp.BL.Auth.IEncrypt, DebantErp.BL.Auth.Encrypt>();
-builder.Services.AddScoped<DebantErp.DAL.DbHelper>();
 builder.Services.AddScoped<DebantErp.BL.Auth.IAuth, DebantErp.BL.Auth.Auth>();
-builder.Services.AddScoped<
-    DebantErp.DAL.Interfaces.IAuthDAL,
-    DebantErp.DAL.Implementations.AuthDAL
->();
+builder.Services.AddSingleton<DebantErp.DAL.IAuthDAL, DebantErp.DAL.AuthDAL>();
+builder.Services.AddSingleton(provider =>
+{
+    var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
+    var logger = loggerFactory.CreateLogger("DbHelper");
+    DebantErp.DAL.DbHelper.SetLogger(logger);
+    return new object(); // Просто чтоб зарегать
+});
 
 // Добавляем аутентификацию
 builder

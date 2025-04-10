@@ -1,17 +1,9 @@
-using DebantErp.DAL.Interfaces;
 using DebantErp.DAL.Models;
 
-namespace DebantErp.DAL.Implementations
+namespace DebantErp.DAL
 {
     public class AuthDAL : IAuthDAL
     {
-        private readonly DbHelper _dbHelper;
-
-        public AuthDAL(DbHelper dbHelper)
-        {
-            _dbHelper = dbHelper;
-        }
-
         public Task<List<UserModel>> Get()
         {
             throw new NotImplementedException();
@@ -19,7 +11,7 @@ namespace DebantErp.DAL.Implementations
 
         public async Task<UserModel> Get(string email)
         {
-            var result = await _dbHelper.QueryAsync<UserModel>(
+            var result = await DbHelper.QueryAsync<UserModel>(
                 "SELECT * FROM users WHERE email = @email",
                 new { email }
             );
@@ -28,7 +20,7 @@ namespace DebantErp.DAL.Implementations
 
         public async Task<UserModel> Get(int id)
         {
-            var result = await _dbHelper.QueryAsync<UserModel>(
+            var result = await DbHelper.QueryAsync<UserModel>(
                 "SELECT id, first_name AS FirstName, last_name AS LastName, phone, role, email, status FROM users WHERE id = @id",
                 new { id }
             );
@@ -39,14 +31,14 @@ namespace DebantErp.DAL.Implementations
         {
             string sql =
                 "INSERT INTO users ( first_name, last_name, phone, role, email, password, salt, status) VALUES (@firstName, @lastName, @phone, @role, @email, @password,  @salt, @status)";
-            return await _dbHelper.ExecuteScalarAsync(sql, model);
+            return await DbHelper.ExecuteScalarAsync(sql, model);
         }
 
         public async Task<int> Update(UserModel model)
         {
             string sql =
                 "UPDATE users SET first_name = @firstName, last_name = @LastName, phone = @phone, role = @role, email = @email, status = @status, updated_at = CAST(@UpdatedAt AS timestamp with time zone) WHERE id = @id";
-            return await _dbHelper.ExecuteAsync(sql, model);
+            return await DbHelper.ExecuteAsync(sql, model);
         }
 
         public Task<int> Delete(int id)

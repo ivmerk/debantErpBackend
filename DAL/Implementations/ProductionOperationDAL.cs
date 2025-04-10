@@ -1,20 +1,12 @@
-using DebantErp.DAL.Interfaces;
 using DebantErp.DAL.Models;
 
-namespace DebantErp.DAL.Implementations
+namespace DebantErp.DAL
 {
     public class ProductionOperationDAL : IProductionOperationDAL
     {
-        private readonly DbHelper _dbHelper;
-
-        public ProductionOperationDAL(DbHelper dbHelper)
-        {
-            _dbHelper = dbHelper;
-        }
-
         public async Task<List<ProductionOperationModel>> Get()
         {
-            var result = await _dbHelper.QueryAsync<ProductionOperationModel>(
+            var result = await DbHelper.QueryAsync<ProductionOperationModel>(
                 "SELECT * FROM production_operations",
                 new { }
             );
@@ -23,7 +15,7 @@ namespace DebantErp.DAL.Implementations
 
         public async Task<ProductionOperationModel> Get(int id)
         {
-            var result = await _dbHelper.QueryAsync<ProductionOperationModel>(
+            var result = await DbHelper.QueryAsync<ProductionOperationModel>(
                 "SELECT * FROM production_operations WHERE id = @id",
                 new { id }
             );
@@ -33,7 +25,7 @@ namespace DebantErp.DAL.Implementations
         public async Task<int> Create(ProductionOperationModel model)
         {
             string sql = "INSERT INTO production_operations ( name ) VALUES (@name) RETURNING id";
-            return await _dbHelper.ExecuteScalarAsync(sql, model);
+            return await DbHelper.ExecuteScalarAsync(sql, model);
         }
 
         public Task<int> Update(ProductionOperationModel model)

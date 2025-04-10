@@ -1,20 +1,12 @@
-using DebantErp.DAL.Interfaces;
 using DebantErp.DAL.Models;
 
-namespace DebantErp.DAL.Implementations
+namespace DebantErp.DAL
 {
     public class SpecialityDAL : ISpecialityDAL
     {
-        private readonly DbHelper _dbHelper;
-
-        public SpecialityDAL(DbHelper dbHelper)
-        {
-            _dbHelper = dbHelper;
-        }
-
         public async Task<List<SpecialityModel>> Get()
         {
-            var result = await _dbHelper.QueryAsync<SpecialityModel>(
+            var result = await DbHelper.QueryAsync<SpecialityModel>(
                 "SELECT * FROM specialities",
                 new { }
             );
@@ -23,7 +15,7 @@ namespace DebantErp.DAL.Implementations
 
         public async Task<SpecialityModel> Get(int id)
         {
-            var result = await _dbHelper.QueryAsync<SpecialityModel>(
+            var result = await DbHelper.QueryAsync<SpecialityModel>(
                 "SELECT * FROM specialities WHERE id = @id",
                 new { id }
             );
@@ -33,19 +25,19 @@ namespace DebantErp.DAL.Implementations
         public async Task<int> Create(SpecialityModel model)
         {
             string sql = "INSERT INTO specialities (name) VALUES (@name) RETURNING id";
-            return await _dbHelper.ExecuteScalarAsync(sql, model);
+            return await DbHelper.ExecuteScalarAsync(sql, model);
         }
 
         public async Task<int> Update(SpecialityModel model)
         {
             string sql = "UPDATE specialities SET name = @name WHERE id = @id";
-            return await _dbHelper.ExecuteAsync(sql, model);
+            return await DbHelper.ExecuteAsync(sql, model);
         }
 
         public async Task<int> Delete(int id)
         {
             string sql = "UPDATE specialities SET is_actual = false WHERE id = @id";
-            return await _dbHelper.ExecuteAsync(sql, new { id });
+            return await DbHelper.ExecuteAsync(sql, new { id });
         }
     }
 }
