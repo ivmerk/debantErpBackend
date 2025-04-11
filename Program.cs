@@ -12,6 +12,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<DebantErp.BL.Auth.IEncrypt, DebantErp.BL.Auth.Encrypt>();
 builder.Services.AddSingleton<DebantErp.DAL.IEmployeeDAL, DebantErp.DAL.EmployeeDAL>();
+builder.Services.AddSingleton<
+    DebantErp.DAL.IEmployeeDetailsDAL,
+    DebantErp.DAL.EmployeeDetailsDAL
+>();
 builder.Services.AddScoped<DebantErp.BL.Auth.IAuth, DebantErp.BL.Auth.Auth>();
 builder.Services.AddScoped<DebantErp.BL.Employee.IEmployee, DebantErp.BL.Employee.Employee>();
 builder.Services.AddSingleton<DebantErp.DAL.IAuthDAL, DebantErp.DAL.AuthDAL>();

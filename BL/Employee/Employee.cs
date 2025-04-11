@@ -1,4 +1,5 @@
 using DebantErp.DAL;
+using DebantErp.DAL.Models;
 using DebantErp.Dtos;
 using DebantErp.Rdos;
 
@@ -7,10 +8,12 @@ namespace DebantErp.BL.Employee
     public class Employee : IEmployee
     {
         private readonly IEmployeeDAL _employeeDAL;
+        private readonly IEmployeeDetailsDAL _employeeDetailsDAL;
 
-        public Employee(IEmployeeDAL employeeDAL)
+        public Employee(IEmployeeDAL employeeDAL, IEmployeeDetailsDAL employeeDetailsDAL)
         {
             _employeeDAL = employeeDAL;
+            _employeeDetailsDAL = employeeDetailsDAL;
         }
 
         public Task<IEnumerable<EmployeeRdo>> GetEmployees() => throw new NotImplementedException();
@@ -34,9 +37,30 @@ namespace DebantErp.BL.Employee
             return employeeRdo;
         }
 
-        public Task<int> CreateEmployee(CreateEmployeeDto dto)
+        public async Task<int> CreateEmployee(CreateEmployeeDto dto)
         {
-            throw new NotImplementedException();
+            var employee = new EmployeeModel
+            {
+                FirstName = dto.FirstName,
+                MiddleName = dto.MiddleName,
+                LastName = dto.LastName,
+            };
+            var id = await _employeeDAL.Create(employee);
+
+            var employeeDetails = new EmployeeDetailsModel
+            {
+                TaxCode = dto.TaxCode,
+                Address = dto.Address,
+                Email = dto.Email,
+                Phone = dto.Phone,
+                BirthDate = DateTime.Parse(dto.BirthDate),
+                Gender = dto.Gender == "male" ? GenderEnum.Male : GenderEnum.Female,
+                Picture = "",
+                EmployeeId = id,
+            };
+            await _employeeDetailsDAL.Create(employeeDetails);
+
+            return id;
         }
 
         public Task<int> UpdateEmployee(int id, UpdateEmployeeDto dto)

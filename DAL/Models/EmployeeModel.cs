@@ -15,5 +15,7 @@ namespace DebantErp.DAL.Models
         public DateTime CreatedAt { get; set; }
 
         public DateTime UpdatedAt { get; set; }
+
+        public EmployeeDetailsModel? EmployeeDetails { get; set; }
     }
 }
