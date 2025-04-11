@@ -1,3 +1,4 @@
+using System.Text.Json;
 using DebantErp.DAL.Models;
 
 namespace DebantErp.DAL
@@ -18,6 +19,9 @@ namespace DebantErp.DAL
             var result = await DbHelper.QueryAsync<EmployeeModel>(
                 "SELECT * FROM employees WHERE id = @id",
                 new { id }
+            );
+            Console.WriteLine(
+                JsonSerializer.Serialize(result, new JsonSerializerOptions { WriteIndented = true })
             );
             return result.FirstOrDefault() ?? new EmployeeModel();
         }

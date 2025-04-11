@@ -4,13 +4,16 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
+Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<DebantErp.BL.Auth.IEncrypt, DebantErp.BL.Auth.Encrypt>();
+builder.Services.AddSingleton<DebantErp.DAL.IEmployeeDAL, DebantErp.DAL.EmployeeDAL>();
 builder.Services.AddScoped<DebantErp.BL.Auth.IAuth, DebantErp.BL.Auth.Auth>();
+builder.Services.AddScoped<DebantErp.BL.Employee.IEmployee, DebantErp.BL.Employee.Employee>();
 builder.Services.AddSingleton<DebantErp.DAL.IAuthDAL, DebantErp.DAL.AuthDAL>();
 builder.Services.AddSingleton(provider =>
 {

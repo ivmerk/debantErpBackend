@@ -18,6 +18,15 @@ namespace DebantErp.DAL
             return result.FirstOrDefault() ?? new EmployeeDetailsModel();
         }
 
+        public async Task<EmployeeDetailsModel> GetByEmployeeId(int employeeId)
+        {
+            var result = await DbHelper.QueryAsync<EmployeeDetailsModel>(
+                "SELECT * FROM employee_details WHERE employee_id = @employeeId",
+                new { employeeId }
+            );
+            return result.FirstOrDefault() ?? new EmployeeDetailsModel();
+        }
+
         public async Task<int> Create(EmployeeDetailsModel model)
         {
             string sql =
