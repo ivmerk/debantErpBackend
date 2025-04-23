@@ -63,14 +63,30 @@ namespace DebantErp.BL.Employee
             return id;
         }
 
-        public Task<int> UpdateEmployee(int id, UpdateEmployeeDto dto)
+        public async Task<int> UpdateEmployee(int id, UpdateEmployeeDto dto)
         {
-            throw new NotImplementedException();
+            var emplotyee = await _employeeDAL.Get(id);
+            if (emplotyee == null)
+            {
+                return 0;
+            }
+            if (dto.FirstName != null)
+                emplotyee.FirstName = dto.FirstName;
+            if (dto.MiddleName != null)
+                emplotyee.MiddleName = dto.MiddleName;
+            if (dto.LastName != null)
+                emplotyee.LastName = dto.LastName;
+            return await _employeeDAL.Update(emplotyee);
         }
 
         public Task<int> DeleteEmployee(int id)
         {
-            throw new NotImplementedException();
+            var employee = _employeeDAL.Get(id);
+            if (employee == null)
+            {
+                return Task.FromResult(0);
+            }
+            return _employeeDAL.Delete(id);
         }
     }
 }

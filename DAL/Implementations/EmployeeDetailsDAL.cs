@@ -12,7 +12,7 @@ namespace DebantErp.DAL
         public async Task<EmployeeDetailsModel> Get(int id)
         {
             var result = await DbHelper.QueryAsync<EmployeeDetailsModel>(
-                "SELECT * FROM employee_details WHERE id = @id",
+                "SELECT * FROM employees_details WHERE id = @id",
                 new { id }
             );
             return result.FirstOrDefault() ?? new EmployeeDetailsModel();
@@ -21,7 +21,7 @@ namespace DebantErp.DAL
         public async Task<EmployeeDetailsModel> GetByEmployeeId(int employeeId)
         {
             var result = await DbHelper.QueryAsync<EmployeeDetailsModel>(
-                "SELECT * FROM employee_details WHERE employee_id = @employeeId",
+                "SELECT * FROM employees_details WHERE employee_id = @EmployeeId",
                 new { employeeId }
             );
             return result.FirstOrDefault() ?? new EmployeeDetailsModel();
@@ -30,14 +30,14 @@ namespace DebantErp.DAL
         public async Task<int> Create(EmployeeDetailsModel model)
         {
             string sql =
-                "INSERT INTO employee_details (tax_code, address, email, phone, birth_date, gender, picture, employee_id) VALUES (@tax_code, @address, @email, @phone, @birth_date, @gender, @picture, @employeeId) RETURNING id";
+                "INSERT INTO employees_details (tax_code, address, email, phone, birth_date, gender, picture, employee_id) VALUES (@TaxCode, @Address, @Email, @Phone, @BirthDate, @Gender, @Picture, @EmployeeId) RETURNING id";
             return await DbHelper.ExecuteScalarAsync(sql, model);
         }
 
         public async Task<int> Update(EmployeeDetailsModel model)
         {
             string sql =
-                "UPDATE employee_details SET tax_code = @tax_code, address = @address, email = @email, phone = @phone, birth_date = @birth_date, gender = @gender, picture = @picture, updated_at = CAST(@UpdatedAt AS timestamp with time zone) WHERE id = @id";
+                "UPDATE employees_details SET tax_code = @TaxCode, address = @Address, email = @Email, phone = @Phone, birth_date = @BirthDate, gender = @Gender, picture = @Picture, updated_at = CAST(@UpdatedAt AS timestamp with time zone) WHERE id = @id";
             return await DbHelper.ExecuteAsync(sql, model);
         }
 

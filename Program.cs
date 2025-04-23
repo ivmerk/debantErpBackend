@@ -18,6 +18,10 @@ builder.Services.AddSingleton<
 >();
 builder.Services.AddScoped<DebantErp.BL.Auth.IAuth, DebantErp.BL.Auth.Auth>();
 builder.Services.AddScoped<DebantErp.BL.Employee.IEmployee, DebantErp.BL.Employee.Employee>();
+builder.Services.AddScoped<
+    DebantErp.BL.Employee.IEmployeeDetails,
+    DebantErp.BL.Employee.EmployeeDetails
+>();
 builder.Services.AddSingleton<DebantErp.DAL.IAuthDAL, DebantErp.DAL.AuthDAL>();
 builder.Services.AddSingleton(provider =>
 {

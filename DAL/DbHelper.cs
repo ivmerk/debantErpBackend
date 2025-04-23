@@ -39,7 +39,7 @@ namespace DebantErp.DAL
                 using (var connection = new NpgsqlConnection(DbHelper.ConnectionString))
                 {
                     await connection.OpenAsync();
-                    return await connection.ExecuteAsync(sql, model);
+                    return await connection.ExecuteScalarAsync<int>(sql, model);
                 }
             }
             catch (Exception ex)

@@ -7,19 +7,17 @@ using Microsoft.AspNetCore.Mvc;
 public class EmployeesController : ControllerBase
 {
     private readonly IEmployee _employee;
+    private readonly IEmployeeDetails _employeeDetails;
 
-    public EmployeesController(IEmployee employee)
+    public EmployeesController(IEmployee employee, IEmployeeDetails employeeDetails)
     {
         _employee = employee;
+        _employeeDetails = employeeDetails;
     }
 
     [HttpPost]
     public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeDto dto)
     {
-        if (dto == null)
-        {
-            return BadRequest("Данные отсутствуют.");
-        }
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -29,10 +27,11 @@ public class EmployeesController : ControllerBase
         return Ok(userId);
     }
 
-    [HttpGet("details/{id}")]
-    public Task<IActionResult> GetEmployeeDetails(int id)
+    [HttpGet("details/{employee_id}")]
+    public async Task<IActionResult> GetEmployeeDetails(int employee_id)
     {
-        throw new NotImplementedException();
+        var employeeDetails = await _employeeDetails.GetEmployeeDetailsByEmployeeId(employee_id);
+        return Ok(employeeDetails);
     }
 
     [HttpGet("{id}")]
@@ -45,15 +44,33 @@ public class EmployeesController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateEmployee(int id, [FromBody] UpdateEmployeeDto dto)
     {
-        if (dto == null)
-        {
-            return BadRequest("Данные отсутствуют.");
-        }
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var userId = await _employee.UpdateEmployee(id, dto);
+
+        if (dto.LastName != null || dto.MiddleName != null || dto.FirstName != null)
+        {
+            var userId = await _employee.UpdateEmployee(id, dto);
+        }
+        if (
+            dto.TaxCode != null
+            || dto.Address != null
+            || dto.Email != null
+            || dto.Phone != null
+            || dto.BirthDate != null
+            || dto.Gender != null
+        )
+        {
+            var userId = await _employeeDetails.UpdateEmployeeDetails(id, dto);
+        }
+        return Ok(id);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteEmployee(int id)
+    {
+        var userId = await _employee.DeleteEmployee(id);
         return Ok(userId);
     }
 }
