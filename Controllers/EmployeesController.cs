@@ -3,7 +3,7 @@ using DebantErp.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/employees")]
 public class EmployeesController : ControllerBase
 {
     private readonly IEmployee _employee;
