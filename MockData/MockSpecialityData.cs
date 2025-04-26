@@ -24,7 +24,7 @@ public class MockSpecialityData
         if (specialityCount > 0)
             return;
 
-        var specialities = new List<dynamic>
+        var specialities = new List<object>
         {
             new { Name = "Швея", IsActual = true },
             new { Name = "Ткач", IsActual = true },
@@ -41,10 +41,18 @@ public class MockSpecialityData
                 VALUES (@Name, @IsActual) 
                 ON CONFLICT (name) DO NOTHING 
                 RETURNING id";
+            var specialityIds = new List<int>();
 
-            var specialityIds = (
-                await connection.QueryAsync<int>(insertSpecialitiesSql, specialities, transaction)
-            ).ToList();
+            foreach (var speciality in specialities)
+            {
+                var id = await connection.QuerySingleOrDefaultAsync<int>(
+                    insertSpecialitiesSql,
+                    speciality,
+                    transaction
+                );
+                if (id != 0) // если вставка произошла
+                    specialityIds.Add(id);
+            }
 
             if (!specialityIds.Any())
             {
@@ -90,7 +98,7 @@ public class MockSpecialityData
 
             string insertEmployeeSpecialitiesSql =
                 @"
-                INSERT INTO employee_specialities (employee_id, speciality_id, date_from, is_actual, created_at, updated_at) 
+                INSERT INTO employee_transitions_between_specialities (employee_id, speciality_id, date_from, is_actual, created_at, updated_at) 
                 VALUES (@EmployeeId, @SpecialityId, @DateFrom, @IsActual, @CreatedAt, @UpdatedAt)";
 
             await connection.ExecuteAsync(

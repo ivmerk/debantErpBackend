@@ -1,6 +1,6 @@
 namespace DebantErp.DAL.Models
 {
-    public class EmployeeSpecialityModel
+    public class EmployeeTransitionBetweenSpecialityModel
     {
         public int Id { get; set; }
 
