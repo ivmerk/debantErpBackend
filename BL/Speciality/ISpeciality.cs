@@ -5,7 +5,7 @@ namespace DebantErp.BL.Speciality
 {
     public interface ISpeciality
     {
-        public Task<IEnumerable<SpecialityRdo>> GetSpecialities();
+        public Task<List<SpecialityRdo>> GetSpecialities();
         public Task<SpecialityRdo> GetSpeciality(int id);
         public Task<int> CreateSpeciality(CreateUpdateSpecialityDto dto);
         public Task<int> UpdateSpeciality(int id, CreateUpdateSpecialityDto dto);

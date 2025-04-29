@@ -15,18 +15,6 @@ public class EmployeesController : ControllerBase
         _employeeDetails = employeeDetails;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeDto dto)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        //        await _auth.ValidateEmail(dto.Email ?? "");
-        var userId = await _employee.CreateEmployee(dto);
-        return Ok(userId);
-    }
-
     [HttpGet("details/{employee_id}")]
     public async Task<IActionResult> GetEmployeeDetails(int employee_id)
     {
@@ -39,6 +27,18 @@ public class EmployeesController : ControllerBase
     {
         var user = await _employee.GetEmployee(id);
         return Ok(user);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeDto dto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        //        await _auth.ValidateEmail(dto.Email ?? "");
+        var userId = await _employee.CreateEmployee(dto);
+        return Ok(userId);
     }
 
     [HttpPut("{id}")]

@@ -22,8 +22,6 @@ namespace DebantErp.BL.Employee
         {
             var employee = await _employeeDAL.Get(id);
 
-            System.Console.WriteLine(employee.Id.ToString(), employee.FirstName);
-
             var employeeRdo = new EmployeeRdo
             {
                 Id = employee.Id,

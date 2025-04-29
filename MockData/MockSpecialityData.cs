@@ -1,5 +1,4 @@
 using Dapper;
-using DebantErp.DAL.Models;
 using Npgsql;
 
 public class MockSpecialityData
@@ -65,7 +64,6 @@ public class MockSpecialityData
                 ).ToList();
             }
 
-            // Получаем 10 случайных сотрудников
             string getEmployeesSql = "SELECT id FROM employees ORDER BY RANDOM() LIMIT 10";
             var employeeIds = (
                 await connection.QueryAsync<int>(getEmployeesSql, transaction: transaction)
@@ -76,7 +74,6 @@ public class MockSpecialityData
                 throw new Exception("No employees found. Please insert employees first.");
             }
 
-            // Создаем 10 записей в employee_specialities
             var random = new Random();
             var employeeSpecialities = new List<dynamic>();
 

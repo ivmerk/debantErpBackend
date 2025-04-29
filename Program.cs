@@ -10,19 +10,27 @@ Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<DebantErp.BL.Auth.IEncrypt, DebantErp.BL.Auth.Encrypt>();
+
+builder.Services.AddSingleton<DebantErp.DAL.IAuthDAL, DebantErp.DAL.AuthDAL>();
 builder.Services.AddSingleton<DebantErp.DAL.IEmployeeDAL, DebantErp.DAL.EmployeeDAL>();
 builder.Services.AddSingleton<
     DebantErp.DAL.IEmployeeDetailsDAL,
     DebantErp.DAL.EmployeeDetailsDAL
 >();
+builder.Services.AddSingleton<DebantErp.DAL.ISpecialityDAL, DebantErp.DAL.SpecialityDAL>();
+
+builder.Services.AddSingleton<DebantErp.BL.Auth.IEncrypt, DebantErp.BL.Auth.Encrypt>();
 builder.Services.AddScoped<DebantErp.BL.Auth.IAuth, DebantErp.BL.Auth.Auth>();
 builder.Services.AddScoped<DebantErp.BL.Employee.IEmployee, DebantErp.BL.Employee.Employee>();
 builder.Services.AddScoped<
     DebantErp.BL.Employee.IEmployeeDetails,
     DebantErp.BL.Employee.EmployeeDetails
 >();
-builder.Services.AddSingleton<DebantErp.DAL.IAuthDAL, DebantErp.DAL.AuthDAL>();
+builder.Services.AddScoped<
+    DebantErp.BL.Speciality.ISpeciality,
+    DebantErp.BL.Speciality.Speciality
+>();
+
 builder.Services.AddSingleton(provider =>
 {
     var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
