@@ -95,7 +95,7 @@ public class MockSpecialityData
 
             string insertEmployeeSpecialitiesSql =
                 @"
-                INSERT INTO employee_transitions_between_specialities (employee_id, speciality_id, date_from, is_actual, created_at, updated_at) 
+                INSERT INTO employee_speciality_assignments (employee_id, speciality_id, date_from, is_actual, created_at, updated_at) 
                 VALUES (@EmployeeId, @SpecialityId, @DateFrom, @IsActual, @CreatedAt, @UpdatedAt)";
 
             await connection.ExecuteAsync(

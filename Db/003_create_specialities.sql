@@ -5,7 +5,7 @@ create table if not exists specialities (
     created_at timestamptz default now()
 );
 
-create table if not exists employee_transitions_between_specialities (
+create table if not exists employee_speciality_assignments (
     id serial primary key,
     employee_id int references employees(id) on delete cascade,
     speciality_id int references specialities(id) on delete cascade,
@@ -25,6 +25,6 @@ end;
 $$ language 'plpgsql';
 
 create trigger set_timestamp
-before update on employee_transitions_between_specialities
+before update on employee_speciality_assignments
 for each row
 execute function update_modified_column_specialities();

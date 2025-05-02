@@ -1,6 +1,6 @@
 namespace DebantErp.DAL.Models
 {
-    public class EmployeeTransitionBetweenSpecialityModel
+    public class EmployeeSpecialityAssignmentModel
     {
         public int Id { get; set; }
 
@@ -9,6 +9,8 @@ namespace DebantErp.DAL.Models
         public int SpecialityId { get; set; }
 
         public bool IsActive { get; set; } = true;
+
+        public DateTime DateFrom { get; set; } = DateTime.Now;
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 

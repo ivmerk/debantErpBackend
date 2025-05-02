@@ -15,18 +15,18 @@ public class EmployeesController : ControllerBase
         _employeeDetails = employeeDetails;
     }
 
-    [HttpGet("details/{employee_id}")]
-    public async Task<IActionResult> GetEmployeeDetails(int employee_id)
-    {
-        var employeeDetails = await _employeeDetails.GetEmployeeDetailsByEmployeeId(employee_id);
-        return Ok(employeeDetails);
-    }
-
     [HttpGet("{id}")]
     public async Task<IActionResult> GetEmployee(int id)
     {
         var user = await _employee.GetEmployee(id);
         return Ok(user);
+    }
+
+    [HttpGet("details/{employee_id}")]
+    public async Task<IActionResult> GetEmployeeDetails(int employee_id)
+    {
+        var employeeDetails = await _employeeDetails.GetEmployeeDetailsByEmployeeId(employee_id);
+        return Ok(employeeDetails);
     }
 
     [HttpPost]

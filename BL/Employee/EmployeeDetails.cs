@@ -36,18 +36,22 @@ namespace DebantErp.BL.Employee
         public async Task<int> UpdateEmployeeDetails(int employeeId, UpdateEmployeeDto dto)
         {
             var employeeDetails = await _employeeDetailsDAL.GetByEmployeeId(employeeId);
+            if (employeeDetails == null)
+            {
+                throw new Exception("EmployeeDetails not found");
+            }
 
-            if (dto?.TaxCode != null)
+            if (!string.IsNullOrWhiteSpace(dto?.TaxCode))
                 employeeDetails.TaxCode = dto.TaxCode;
-            if (dto?.Address != null)
+            if (!string.IsNullOrWhiteSpace(dto?.Address))
                 employeeDetails.Address = dto.Address;
-            if (dto?.Email != null)
+            if (!string.IsNullOrWhiteSpace(dto?.Email))
                 employeeDetails.Email = dto.Email;
-            if (dto?.Phone != null)
+            if (!string.IsNullOrWhiteSpace(dto?.Phone))
                 employeeDetails.Phone = dto.Phone;
-            if (dto?.BirthDate != null)
+            if (!string.IsNullOrWhiteSpace(dto?.BirthDate))
                 employeeDetails.BirthDate = DateTime.Parse(dto.BirthDate);
-            if (dto?.Gender != null)
+            if (!string.IsNullOrWhiteSpace(dto?.Gender))
                 employeeDetails.Gender = dto.Gender == "male" ? GenderEnum.Male : GenderEnum.Female;
 
             return await _employeeDetailsDAL.Update(employeeDetails);
