@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DebantErp.Dtos
 {
-    public class CreateEmployeeSpecialityAssignmentDto
+    public class CreateEmployeeAssignmentDto
     {
         [Required(ErrorMessage = "EmployeeId is required")]
         [RegularExpression(@"^\d+$", ErrorMessage = "EmployeeId must be a number")]

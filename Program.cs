@@ -18,6 +18,8 @@ builder.Services.AddSingleton<
     DebantErp.DAL.EmployeeDetailsDAL
 >();
 builder.Services.AddSingleton<DebantErp.DAL.ISpecialityDAL, DebantErp.DAL.SpecialityDAL>();
+builder.Services.AddSingleton<DebantErp.DAL.IEmployeeSpecialityAssignmentDAL,
+    DebantErp.DAL.EmployeeSpecialityAssignmentDAL>();
 
 builder.Services.AddSingleton<DebantErp.BL.Auth.IEncrypt, DebantErp.BL.Auth.Encrypt>();
 builder.Services.AddScoped<DebantErp.BL.Auth.IAuth, DebantErp.BL.Auth.Auth>();
@@ -29,6 +31,10 @@ builder.Services.AddScoped<
 builder.Services.AddScoped<
     DebantErp.BL.Speciality.ISpeciality,
     DebantErp.BL.Speciality.Speciality
+>();
+builder.Services.AddScoped<
+    DebantErp.BL.Employee.IEmployeeSpecialityAssignment,
+    DebantErp.BL.Employee.EmployeeSpecialityAssignment
 >();
 
 builder.Services.AddSingleton(provider =>

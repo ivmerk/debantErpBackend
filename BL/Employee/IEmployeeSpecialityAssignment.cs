@@ -5,8 +5,10 @@ namespace DebantErp.BL.Employee
 {
     public interface IEmployeeSpecialityAssignment
     {
-        Task<int> Create(CreateEmployeeSpecialityAssignmentDto dto);
+        Task<int> Create(CreateEmployeeAssignmentDto dto);
+        Task<int> Delete(int id);
         Task<EmployeeSpecialityAssignmentRdo> Get(int id);
-        Task<List<EmployeeSpecialityAssignmentRdo>> GetByEmployeeId(int employeeId);
+        Task<List<EmployeeSpecialityAssignmentRdo>> GetByEmployee(int employeeId);
+        Task<int> Update(int id, UpdateEmployeeAssignmentDto dto);
     }
 }

@@ -60,10 +60,6 @@ namespace DebantErp.BL.Speciality
                 throw new Exception("Speciality already exist");
             }
             var speciality = await _specialityDAL.Get(id);
-            if (speciality == null)
-            {
-                throw new Exception("Speciality not found");
-            }
             speciality.Name = dto.Name;
             return await _specialityDAL.Update(speciality);
         }

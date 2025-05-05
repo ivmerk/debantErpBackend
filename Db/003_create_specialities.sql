@@ -16,13 +16,15 @@ create table if not exists employee_speciality_assignments (
     unique(employee_id, speciality_id)
 );
 
-create function update_modified_column_specialities() 
+create or replace function update_modified_column_specialities() 
 returns trigger as $$
 begin
     new.updated_at = now();
     return new;
 end;
 $$ language 'plpgsql';
+
+drop trigger if exists set_timestamp on employee_speciality_assignments;
 
 create trigger set_timestamp
 before update on employee_speciality_assignments

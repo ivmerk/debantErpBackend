@@ -68,11 +68,11 @@ namespace DebantErp.BL.Employee
             {
                 return 0;
             }
-            if (dto.FirstName != null)
+            if (!string.IsNullOrWhiteSpace(dto.FirstName))
                 emplotyee.FirstName = dto.FirstName;
-            if (dto.MiddleName != null)
+            if (!string.IsNullOrWhiteSpace(dto.MiddleName))
                 emplotyee.MiddleName = dto.MiddleName;
-            if (dto.LastName != null)
+            if (!string.IsNullOrWhiteSpace(dto.LastName))
                 emplotyee.LastName = dto.LastName;
             return await _employeeDAL.Update(emplotyee);
         }

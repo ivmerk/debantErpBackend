@@ -5,18 +5,18 @@ using DebantErp.Rdos;
 
 namespace DebantErp.BL.Employee
 {
-    public class EmployeeSpecialityAssigment : IEmployeeSpecialityAssignment
+    public class EmployeeSpecialityAssignment : IEmployeeSpecialityAssignment
     {
         private readonly IEmployeeSpecialityAssignmentDAL _employeeSpecialityAssignmentDAL;
 
-        public EmployeeSpecialityAssigment(
+        public EmployeeSpecialityAssignment(
             IEmployeeSpecialityAssignmentDAL employeeSpecialityAssignmentDAL
         )
         {
             _employeeSpecialityAssignmentDAL = employeeSpecialityAssignmentDAL;
         }
 
-        public Task<int> Create(CreateEmployeeSpecialityAssignmentDto dto)
+        public Task<int> Create(CreateEmployeeAssignmentDto dto)
         {
             var model = new EmployeeSpecialityAssignmentModel
             {
@@ -27,7 +27,6 @@ namespace DebantErp.BL.Employee
             return _employeeSpecialityAssignmentDAL.Create(model);
         }
 
-        public Task<int> Delete(int id) => _employeeSpecialityAssignmentDAL.Delete(id);
 
         public async Task<EmployeeSpecialityAssignmentRdo> Get(int id)
         {
@@ -37,12 +36,13 @@ namespace DebantErp.BL.Employee
                 Id = model.Id,
                 EmployeeId = model.EmployeeId,
                 SpecialityId = model.SpecialityId,
+                IsActual = model.IsActual,
                 DateFrom = model.DateFrom,
             };
             return rdo;
         }
 
-        public async Task<List<EmployeeSpecialityAssignmentRdo>> GetByEmployeeId(int employeeId)
+        public async Task<List<EmployeeSpecialityAssignmentRdo>> GetByEmployee(int employeeId)
         {
             var models = await _employeeSpecialityAssignmentDAL.GetByEmployeeId(employeeId);
             var rdos = new List<EmployeeSpecialityAssignmentRdo>();
@@ -53,6 +53,7 @@ namespace DebantErp.BL.Employee
                     Id = model.Id,
                     EmployeeId = model.EmployeeId,
                     SpecialityId = model.SpecialityId,
+                IsActual = model.IsActual,
                     DateFrom = model.DateFrom,
                 };
                 rdos.Add(rdo);
@@ -60,7 +61,7 @@ namespace DebantErp.BL.Employee
             return rdos;
         }
 
-        public async Task<int> Update(int id, UpdateEmployeeSpecialityAssignmentDto dto)
+        public async Task<int> Update(int id, UpdateEmployeeAssignmentDto dto)
         {
             var assignment = await _employeeSpecialityAssignmentDAL.Get(id);
             if (assignment == null)
@@ -86,5 +87,7 @@ namespace DebantErp.BL.Employee
             }
             return await _employeeSpecialityAssignmentDAL.Update(assignment);
         }
+
+        public Task<int> Delete(int id) => _employeeSpecialityAssignmentDAL.Delete(id);
     }
 }

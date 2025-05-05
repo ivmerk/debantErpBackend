@@ -8,7 +8,7 @@ namespace DebantErp.DAL.Models
 
         public int SpecialityId { get; set; }
 
-        public bool IsActive { get; set; } = true;
+        public bool IsActual { get; set; } = true;
 
         public DateTime DateFrom { get; set; } = DateTime.Now;
 

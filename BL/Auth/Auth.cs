@@ -73,16 +73,31 @@ namespace DebantErp.BL.Auth
         {
             var user = await GetUser(id);
             var updatedUser = new UserModel
-            {
-                Id = id,
-                FirstName = dto.FirstName ?? user.FirstName,
-                LastName = dto.LastName ?? user.LastName,
-                Phone = dto.Phone ?? user.Phone,
-                Role = dto.Role ?? user.Role,
-                Email = dto.Email ?? user.Email,
-                Status = dto.Status ?? user.Status,
-                UpdatedAt = DateTime.Now,
-            };
+            {};
+              if (!string.IsNullOrEmpty(dto.FirstName))
+              {
+                  updatedUser.FirstName = dto.FirstName;} else {updatedUser.FirstName = user.FirstName;}
+
+              if (!string.IsNullOrEmpty(dto.LastName)){
+                  updatedUser.LastName = dto.LastName;} else {
+                  updatedUser.LastName = user.LastName;
+              }
+              if (!string.IsNullOrEmpty(dto.Phone)){
+                  updatedUser.Phone = dto.Phone;} else {
+                  updatedUser.Phone = user.Phone;
+              }
+              if (dto.Role != null && Enum.IsDefined(typeof(UserRoleEnum), dto.Role.Value)){
+                  updatedUser.Role = dto.Role.Value;} else {
+                  updatedUser.Role = user.Role;
+              }
+              if (!string.IsNullOrEmpty(dto.Email)){
+                  updatedUser.Email = dto.Email;} else {
+                  updatedUser.Email = user.Email;
+              }
+              if (dto.Status != null && Enum.IsDefined(typeof(UserStatusEnum), dto.Status.Value)){
+                  updatedUser.Status = dto.Status.Value;} else {
+                  updatedUser.Status = user.Status;
+              }
 
             return await _authDAL.Update(updatedUser);
         }
