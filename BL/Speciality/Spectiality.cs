@@ -40,7 +40,7 @@ namespace DebantErp.BL.Speciality
             return specialityRdo;
         }
 
-        public async Task<int> CreateSpeciality(CreateUpdateSpecialityDto dto)
+        public async Task<int> Create(CreateUpdateSpecialityDto dto)
         {
             var isExist = await _specialityDAL.IsExist(dto.Name);
             if (isExist)
@@ -52,7 +52,7 @@ namespace DebantErp.BL.Speciality
             return await _specialityDAL.Create(speciality);
         }
 
-        public async Task<int> UpdateSpeciality(int id, CreateUpdateSpecialityDto dto)
+        public async Task<int> Update(int id, CreateUpdateSpecialityDto dto)
         {
             var isExist = await _specialityDAL.IsExist(dto.Name);
             if (isExist)
@@ -64,7 +64,7 @@ namespace DebantErp.BL.Speciality
             return await _specialityDAL.Update(speciality);
         }
 
-        public async Task<int> DeleteSpeciality(int id)
+        public async Task<int> Delete(int id)
         {
             return await _specialityDAL.Delete(id);
         }

@@ -25,7 +25,12 @@ namespace DebantErp.DAL
         public async Task<int> Create(SpecialityModel model)
         {
             string sql = "INSERT INTO specialities (name) VALUES (@name) RETURNING id";
-            return await DbHelper.ExecuteScalarAsync(sql, model);
+            return await DbHelper.ExecuteScalarAsync<int>(sql, model);
+        }
+        public async Task<bool> IsExist(int id)
+        {
+            string sql = "SELECT EXISTS (SELECT 1 FROM specialities WHERE id = @Id)";
+            return await DbHelper.ExecuteScalarAsync<bool>(sql, new { id });
         }
 
         public async Task<int> Update(SpecialityModel model)

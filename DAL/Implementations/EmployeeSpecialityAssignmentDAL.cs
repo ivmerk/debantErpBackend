@@ -31,7 +31,12 @@ namespace DebantErp.DAL
         {
             string sql =
                 "INSERT INTO employee_speciality_assignments ( employee_id, speciality_id, date_from) VALUES (@EmployeeId, @SpecialityId, @DateFrom) RETURNING id";
-            return await DbHelper.ExecuteScalarAsync(sql, model);
+            return await DbHelper.ExecuteScalarAsync<int>(sql, model);
+        }
+        public async Task<bool> IsExist(int id)
+        {
+            string sql = "SELECT EXISTS (SELECT 1 FROM employee_speciality_assignments WHERE id = @Id)";
+            return await DbHelper.ExecuteScalarAsync<bool>(sql, new { id });
         }
 
         public async Task<int> Update(EmployeeSpecialityAssignmentModel model)

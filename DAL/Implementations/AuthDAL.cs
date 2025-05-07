@@ -31,9 +31,14 @@ namespace DebantErp.DAL
         {
             string sql =
                 "INSERT INTO users ( first_name, last_name, phone, role, email, password, salt, status) VALUES (@firstName, @lastName, @phone, @role, @email, @password,  @salt, @status)";
-            return await DbHelper.ExecuteScalarAsync(sql, model);
+            return await DbHelper.ExecuteScalarAsync<int>(sql, model);
         }
 
+        public async Task<bool> IsExist(int id)
+        {
+            string sql = "SELECT EXISTS (SELECT 1 FROM users WHERE id = @Id)";
+            return await DbHelper.ExecuteScalarAsync<bool>(sql, new { id });
+        }
         public async Task<int> Update(UserModel model)
         {
             string sql =

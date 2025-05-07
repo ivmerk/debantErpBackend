@@ -28,18 +28,18 @@ public class SpecialityController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateSpeciality([FromBody] CreateUpdateSpecialityDto dto)
+    public async Task<IActionResult> Create([FromBody] CreateUpdateSpecialityDto dto)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var specialityId = await _speciality.CreateSpeciality(dto);
+        var specialityId = await _speciality.Create(dto);
         return Ok(specialityId);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateSpeciality(
+    public async Task<IActionResult> Update(
         int id,
         [FromBody] CreateUpdateSpecialityDto dto
     )
@@ -48,14 +48,14 @@ public class SpecialityController : ControllerBase
         {
             return BadRequest(ModelState);
         }
-        var specialityId = await _speciality.UpdateSpeciality(id, dto);
+        var specialityId = await _speciality.Update(id, dto);
         return Ok(specialityId);
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteSpeciality(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        var specialityId = await _speciality.DeleteSpeciality(id);
+        var specialityId = await _speciality.Delete(id);
         return Ok(specialityId);
     }
 }

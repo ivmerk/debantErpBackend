@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("api/employees")]
-public class EmployeesController : ControllerBase
+public class EmployeeController : ControllerBase
 {
     private readonly IEmployee _employee;
     private readonly IEmployeeDetails _employeeDetails;
 
-    public EmployeesController(IEmployee employee, IEmployeeDetails employeeDetails)
+    public EmployeeController(IEmployee employee, IEmployeeDetails employeeDetails)
     {
         _employee = employee;
         _employeeDetails = employeeDetails;

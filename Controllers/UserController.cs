@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("users")]
-public class UsersController : ControllerBase
+public class UserController : ControllerBase
 {
     private readonly IAuth _auth;
 
-    public UsersController(IAuth auth)
+    public UserController(IAuth auth)
     {
         _auth = auth;
     }

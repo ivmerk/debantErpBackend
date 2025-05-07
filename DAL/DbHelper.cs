@@ -32,20 +32,20 @@ namespace DebantErp.DAL
             }
         }
 
-        public static async Task<int> ExecuteScalarAsync(string sql, object model)
+        public static async Task<T?> ExecuteScalarAsync<T>(string sql, object model)
         {
             try
             {
                 using (var connection = new NpgsqlConnection(DbHelper.ConnectionString))
                 {
                     await connection.OpenAsync();
-                    return await connection.ExecuteScalarAsync<int>(sql, model);
+                    return await connection.ExecuteScalarAsync<T>(sql, model);
                 }
             }
             catch (Exception ex)
             {
                 _logger?.LogError(ex, "Ошибка при выполнении SQL: {Sql}", sql);
-                return -1;
+                return default(T);
             }
         }
 

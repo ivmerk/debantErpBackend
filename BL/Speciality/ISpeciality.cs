@@ -7,8 +7,8 @@ namespace DebantErp.BL.Speciality
     {
         public Task<List<SpecialityRdo>> GetSpecialities();
         public Task<SpecialityRdo> GetSpeciality(int id);
-        public Task<int> CreateSpeciality(CreateUpdateSpecialityDto dto);
-        public Task<int> UpdateSpeciality(int id, CreateUpdateSpecialityDto dto);
-        public Task<int> DeleteSpeciality(int id);
+        public Task<int> Create(CreateUpdateSpecialityDto dto);
+        public Task<int> Update(int id, CreateUpdateSpecialityDto dto);
+        public Task<int> Delete(int id);
     }
 }

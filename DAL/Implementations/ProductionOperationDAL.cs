@@ -25,7 +25,12 @@ namespace DebantErp.DAL
         public async Task<int> Create(ProductionOperationModel model)
         {
             string sql = "INSERT INTO production_operations ( name ) VALUES (@name) RETURNING id";
-            return await DbHelper.ExecuteScalarAsync(sql, model);
+            return await DbHelper.ExecuteScalarAsync<int>(sql, model);
+        }
+        public async Task<bool> IsExist(int id)
+        {
+            string sql = "SELECT EXISTS (SELECT 1 FROM production_operations WHERE id = @Id)";
+            return await DbHelper.ExecuteScalarAsync<bool>(sql, new { id });
         }
 
         public Task<int> Update(ProductionOperationModel model)

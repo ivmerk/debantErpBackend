@@ -7,7 +7,7 @@ using DebantErp.BL.Speciality;
 namespace DebantErp.Controllers
 {
   [ApiController]
-  [Route("api/assignment")]
+  [Route("api/assignments")]
   public class EmployeeAssignmentController:ControllerBase
   {
 
@@ -28,6 +28,7 @@ namespace DebantErp.Controllers
     public async Task<IActionResult> GetAssignment(int id)
     {
       var assignments = await _employeeSpecialityAssignment.Get(id);
+      if (assignments == null) return NotFound();
       return Ok(assignments);
     }
 
@@ -43,7 +44,7 @@ namespace DebantErp.Controllers
     [HttpPost()]
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> CreateAssignment([FromBody] CreateEmployeeAssignmentDto dto)
+    public async Task<IActionResult> Create([FromBody] CreateEmployeeAssignmentDto dto)
     {
       var assignmentId = await _employeeSpecialityAssignment.Create(dto);
       return Ok(assignmentId);
@@ -52,7 +53,7 @@ namespace DebantErp.Controllers
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> UpdateAssignment(int id, [FromBody] UpdateEmployeeAssignmentDto dto)
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateEmployeeAssignmentDto dto)
     {
       var assignmentId = await _employeeSpecialityAssignment.Update(id, dto);
       return Ok(assignmentId);
@@ -61,9 +62,10 @@ namespace DebantErp.Controllers
     [HttpDelete("{id}")]
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> DeleteAssignment(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-      await _employeeSpecialityAssignment.Delete(id);
+      var result = await _employeeSpecialityAssignment.Delete(id);
+      if (result == 0) return NotFound();
       return Ok();
     }
   }
