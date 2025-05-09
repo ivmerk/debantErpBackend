@@ -5,10 +5,10 @@ namespace DebantErp.BL.Order
 {
   public interface IOrder
   {
-    public Task<int> CreateOrder(CreateOrderDto dto);
-    public Task<OrderRdo> GetOrder(int id);
-    public Task<List<OrderRdo>> GetOrders();
-    public Task<int> UpdateOrder(UpdateOrderDto dto);
-    public Task<int> DeleteOrder(int id);
+    public Task<int> Create(CreateOrderDto dto);
+    public Task<OrderRdo> Get(int id);
+    public Task<List<OrderRdo>> Get(); 
+    public Task<int> Update(int id, UpdateOrderDto dto);
+    public Task<int> Delete(int id);
   }
 }

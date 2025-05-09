@@ -27,12 +27,12 @@ namespace DebantErp.Controllers
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetAssignment(int id)
     {
-      var assignments = await _employeeSpecialityAssignment.Get(id);
-      if (assignments == null) return NotFound();
-      return Ok(assignments);
+      var assignment = await _employeeSpecialityAssignment.Get(id);
+      if (assignment == null) return NotFound();
+      return Ok(assignment);
     }
 
-    [HttpGet("list/{employeeId}")]
+    [HttpGet("list_by_employee/{employeeId}")]
     [ProducesResponseType(typeof(IEnumerable<EmployeeSpecialityAssignmentRdo>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetListByEmployee(int employeeId)
