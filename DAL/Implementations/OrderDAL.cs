@@ -30,6 +30,16 @@ namespace DebantErp.DAL
             return await DbHelper.ExecuteScalarAsync<bool>(sql, new { id });
         }
 
+        public async Task<bool> IsNumberExist(string name)
+        {
+            var result = await DbHelper.QueryAsync<OrderModel>(
+                "SELECT * FROM orders WHERE name = @name",
+                new { name }
+            );
+            if (result.Count() == 0)
+                return false;
+            return true;
+        }
         public async Task<int> Update(OrderModel model)
         {
             string sql = "UPDATE orders SET name = @name WHERE id = @id";

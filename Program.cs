@@ -1,5 +1,8 @@
 using System.Text;
 using DebantErp.MockData;
+using DebantErp.DAL;
+using DebantErp.BL.Auth;
+using DebantErp.BL.Employee;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -11,31 +14,24 @@ Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<DebantErp.DAL.IAuthDAL, DebantErp.DAL.AuthDAL>();
-builder.Services.AddSingleton<DebantErp.DAL.IEmployeeDAL, DebantErp.DAL.EmployeeDAL>();
-builder.Services.AddSingleton<
-    DebantErp.DAL.IEmployeeDetailsDAL,
-    DebantErp.DAL.EmployeeDetailsDAL
->();
-builder.Services.AddSingleton<DebantErp.DAL.ISpecialityDAL, DebantErp.DAL.SpecialityDAL>();
-builder.Services.AddSingleton<DebantErp.DAL.IEmployeeSpecialityAssignmentDAL,
-    DebantErp.DAL.EmployeeSpecialityAssignmentDAL>();
+builder.Services.AddSingleton<IAuthDAL, AuthDAL>();
+builder.Services.AddSingleton<IEmployeeDAL, EmployeeDAL>();
+builder.Services.AddSingleton<IEmployeeDetailsDAL, EmployeeDetailsDAL>();
+builder.Services.AddSingleton<ISpecialityDAL, SpecialityDAL>();
+builder.Services.AddSingleton<IEmployeeSpecialityAssignmentDAL, EmployeeSpecialityAssignmentDAL>();
+builder.Services.AddSingleton<IOrderDAL, OrderDAL>();
 
-builder.Services.AddSingleton<DebantErp.BL.Auth.IEncrypt, DebantErp.BL.Auth.Encrypt>();
-builder.Services.AddScoped<DebantErp.BL.Auth.IAuth, DebantErp.BL.Auth.Auth>();
-builder.Services.AddScoped<DebantErp.BL.Employee.IEmployee, DebantErp.BL.Employee.Employee>();
-builder.Services.AddScoped<
-    DebantErp.BL.Employee.IEmployeeDetails,
-    DebantErp.BL.Employee.EmployeeDetails
->();
+builder.Services.AddSingleton<IEncrypt, Encrypt>();
+builder.Services.AddScoped<IAuth, Auth>();
+builder.Services.AddScoped<IEmployee, Employee>();
+builder.Services.AddScoped<IEmployeeDetails, EmployeeDetails>();
+builder.Services.AddScoped<IEmployeeSpecialityAssignment, EmployeeSpecialityAssignment>();
 builder.Services.AddScoped<
     DebantErp.BL.Speciality.ISpeciality,
     DebantErp.BL.Speciality.Speciality
 >();
-builder.Services.AddScoped<
-    DebantErp.BL.Employee.IEmployeeSpecialityAssignment,
-    DebantErp.BL.Employee.EmployeeSpecialityAssignment
->();
+builder.Services.AddScoped<DebantErp.BL.Order.IOrder, DebantErp.BL.Order.Order>();
+
 
 builder.Services.AddSingleton(provider =>
 {
