@@ -21,7 +21,7 @@ namespace DebantErp.DAL
 
         public async Task<int> Create(OrderModel model)
         {
-            string sql = "INSERT INTO orders (name) VALUES (@name) RETURNING id";
+            string sql = "INSERT INTO orders (number) VALUES (@number) RETURNING id";
             return await DbHelper.ExecuteScalarAsync<int>(sql, model);
         }
         public async Task<bool> IsExist(int id)
@@ -33,7 +33,7 @@ namespace DebantErp.DAL
         public async Task<bool> IsNumberExist(string name)
         {
             var result = await DbHelper.QueryAsync<OrderModel>(
-                "SELECT * FROM orders WHERE name = @name",
+                "SELECT * FROM orders WHERE number = @number",
                 new { name }
             );
             if (result.Count() == 0)
@@ -42,13 +42,13 @@ namespace DebantErp.DAL
         }
         public async Task<int> Update(OrderModel model)
         {
-            string sql = "UPDATE orders SET name = @name WHERE id = @id";
+            string sql = "UPDATE orders SET number = @number WHERE id = @id";
             return await DbHelper.ExecuteAsync(sql, model);
         }
 
         public Task<int> Delete(int id)
         {
-          return DbHelper.ExecuteAsync("UPDATE orders SET is_actual = false WHERE id = @id", new { id });
+          return DbHelper.ExecuteAsync("UPDATE orders SET is_deleted = true WHERE id = @id", new { id });
         }
     }
 }
