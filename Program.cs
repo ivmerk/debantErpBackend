@@ -20,6 +20,7 @@ builder.Services.AddSingleton<IEmployeeDetailsDAL, EmployeeDetailsDAL>();
 builder.Services.AddSingleton<ISpecialityDAL, SpecialityDAL>();
 builder.Services.AddSingleton<IEmployeeSpecialityAssignmentDAL, EmployeeSpecialityAssignmentDAL>();
 builder.Services.AddSingleton<IOrderDAL, OrderDAL>();
+builder.Services.AddSingleton<IOrderLaborCostDAL, OrderLaborCostDAL>();
 
 builder.Services.AddSingleton<IEncrypt, Encrypt>();
 builder.Services.AddScoped<IAuth, Auth>();
@@ -31,6 +32,7 @@ builder.Services.AddScoped<
     DebantErp.BL.Speciality.Speciality
 >();
 builder.Services.AddScoped<DebantErp.BL.Order.IOrder, DebantErp.BL.Order.Order>();
+builder.Services.AddScoped<DebantErp.BL.OrderLaborCost.IOrderLaborCost, DebantErp.BL.OrderLaborCost.OrderLostCost>();
 
 
 builder.Services.AddSingleton(provider =>
