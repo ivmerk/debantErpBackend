@@ -16,12 +16,21 @@ public class EmployeeController : ControllerBase
         _employeeDetails = employeeDetails;
     }
 
+    [HttpGet]
+    [ProducesResponseType(typeof(List<EmployeeRdo>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetList()
+    {
+        var users = await _employee.Get();
+        if (users == null) return NotFound();
+        return Ok(users);
+    }
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(EmployeeRdo), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Get(int id)
     {
-        var user = await _employee.GetEmployee(id);
+        var user = await _employee.Get(id);
         return Ok(user);
     }
 
@@ -40,7 +49,8 @@ public class EmployeeController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateEmployeeDto dto)
     {
         //        await _auth.ValidateEmail(dto.Email ?? "");
-        var userId = await _employee.CreateEmployee(dto);
+        //
+        var userId = await _employee.Create(dto);
         return Ok(userId);
     }
 
@@ -51,7 +61,7 @@ public class EmployeeController : ControllerBase
     {
         if (dto.LastName != null || dto.MiddleName != null || dto.FirstName != null)
         {
-            var userId = await _employee.UpdateEmployee(id, dto);
+            var userId = await _employee.Update(id, dto);
         }
         if (
             dto.TaxCode != null
@@ -70,7 +80,7 @@ public class EmployeeController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var userId = await _employee.DeleteEmployee(id);
+        var userId = await _employee.Delete(id);
         return Ok(userId);
     }
 }

@@ -16,9 +16,27 @@ namespace DebantErp.BL.Employee
             _employeeDetailsDAL = employeeDetailsDAL;
         }
 
-        public Task<IEnumerable<EmployeeRdo>> GetEmployees() => throw new NotImplementedException();
+        public async Task<List<EmployeeRdo>> Get()
+        {
+            var employees = await _employeeDAL.Get();
 
-        public async Task<EmployeeRdo> GetEmployee(int id)
+            if (employees == null || employees.Count == 0) throw new Exception("Employees not found");
+            var employeeRdos = employees
+                .Select(e => new EmployeeRdo
+                {
+                    Id = e.Id,
+                    FirstName = e.FirstName,
+                    MiddleName = e.MiddleName,
+                    LastName = e.LastName,
+                    IsActual = e.IsActual.ToString(),
+                    CreatedAt = e.CreatedAt,
+                    UpdatedAt = e.UpdatedAt,
+                })
+                .ToList();
+            return employeeRdos;
+        }
+
+        public async Task<EmployeeRdo> Get(int id)
         {
             var employee = await _employeeDAL.Get(id);
 
@@ -35,7 +53,7 @@ namespace DebantErp.BL.Employee
             return employeeRdo;
         }
 
-        public async Task<int> CreateEmployee(CreateEmployeeDto dto)
+        public async Task<int> Create(CreateEmployeeDto dto)
         {
             var employee = new EmployeeModel
             {
@@ -61,7 +79,7 @@ namespace DebantErp.BL.Employee
             return id;
         }
 
-        public async Task<int> UpdateEmployee(int id, UpdateEmployeeDto dto)
+        public async Task<int> Update(int id, UpdateEmployeeDto dto)
         {
             var emplotyee = await _employeeDAL.Get(id);
             if (emplotyee == null)
@@ -77,7 +95,7 @@ namespace DebantErp.BL.Employee
             return await _employeeDAL.Update(emplotyee);
         }
 
-        public Task<int> DeleteEmployee(int id)
+        public Task<int> Delete(int id)
         {
             var employee = _employeeDAL.Get(id);
             if (employee == null)

@@ -5,10 +5,10 @@ namespace DebantErp.BL.Employee
 {
     public interface IEmployee
     {
-        public Task<int> CreateEmployee(CreateEmployeeDto dto);
-        public Task<int> UpdateEmployee(int id, UpdateEmployeeDto dto);
-        public Task<int> DeleteEmployee(int id);
-        public Task<EmployeeRdo> GetEmployee(int id);
-        public Task<IEnumerable<EmployeeRdo>> GetEmployees();
+        public Task<int> Create(CreateEmployeeDto dto);
+        public Task<int> Update(int id, UpdateEmployeeDto dto);
+        public Task<int> Delete(int id);
+        public Task<EmployeeRdo> Get(int id);
+        public Task<List<EmployeeRdo>> Get();
     }
 }

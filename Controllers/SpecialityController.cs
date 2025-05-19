@@ -3,7 +3,7 @@ using DebantErp.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("/api/speciality")]
+[Route("/api/specialities")]
 public class SpecialityController : ControllerBase
 {
     private readonly ISpeciality _speciality;
