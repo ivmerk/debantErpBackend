@@ -9,7 +9,6 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
-
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -70,7 +69,7 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policy =>
     {
         policy
-            .WithOrigins("http://localhost:3000") // разрешаем фронтенд
+            .WithOrigins("http://localhost:5500", "http://localhost:3000") // разрешаем фронтенд
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -90,7 +89,6 @@ app.UseCors();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers();
 
 var encryptService = app.Services.GetRequiredService<DebantErp.BL.Auth.IEncrypt>();
 var seeder = new MockDataSeeder(
@@ -99,4 +97,28 @@ var seeder = new MockDataSeeder(
 );
 await seeder.SeedAsync();
 
+//app.UseDefaultFiles(); // ищет index.html
+//app.UseStaticFiles();  // обслуживает wwwroot
+
+app.UseRouting();
+
+// здесь вставляется SPA fallback
+app.Use(async (context, next) =>
+{
+    await next();
+
+    // Если не найден файл и путь не начинается с /api
+    if (context.Request.Path != null && context.Request.Path.Value != null)
+    {
+        if (context.Response.StatusCode == 404 &&
+            !Path.HasExtension(context.Request.Path.Value) &&
+            !context.Request.Path.Value.StartsWith("/api"))
+        {
+            context.Request.Path = "/index.html";
+            context.Response.StatusCode = 200;
+            await next();
+        }
+    }
+});
+app.MapControllers();
 app.Run();
