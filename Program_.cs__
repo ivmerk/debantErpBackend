@@ -1,0 +1,95 @@
+using DebantErp.MockData;
+using DebantErp.DAL;
+using DebantErp.BL.Auth;
+using DebantErp.BL.Employee;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
+var builder = WebApplication.CreateBuilder(args);
+Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
+
+builder.Services.AddControllersWithViews();
+
+// Регистрация сервисов
+builder.Services.AddSingleton<IAuthDAL, AuthDAL>();
+builder.Services.AddSingleton<IEmployeeDAL, EmployeeDAL>();
+builder.Services.AddSingleton<IEmployeeDetailsDAL, EmployeeDetailsDAL>();
+builder.Services.AddSingleton<ISpecialityDAL, SpecialityDAL>();
+builder.Services.AddSingleton<IEmployeeSpecialityAssignmentDAL, EmployeeSpecialityAssignmentDAL>();
+builder.Services.AddSingleton<IOrderDAL, OrderDAL>();
+builder.Services.AddSingleton<IOrderLaborCostDAL, OrderLaborCostDAL>();
+
+builder.Services.AddSingleton<IEncrypt, Encrypt>();
+builder.Services.AddScoped<IAuth, Auth>();
+builder.Services.AddScoped<IEmployee, Employee>();
+builder.Services.AddScoped<IEmployeeDetails, EmployeeDetails>();
+builder.Services.AddScoped<IEmployeeSpecialityAssignment, EmployeeSpecialityAssignment>();
+builder.Services.AddScoped<DebantErp.BL.Speciality.ISpeciality, DebantErp.BL.Speciality.Speciality>();
+builder.Services.AddScoped<DebantErp.BL.Order.IOrder, DebantErp.BL.Order.Order>();
+builder.Services.AddScoped<DebantErp.BL.OrderLaborCost.IOrderLaborCost, DebantErp.BL.OrderLaborCost.OrderLostCost>();
+
+// Настройка CORS политики
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
+// Настройка аутентификации (если используете JWT)
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "your_issuer",
+            ValidAudience = "your_audience",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your_super_secret_key_here_at_least_32_chars"))
+        };
+    });
+
+builder.Services.AddSingleton(provider =>
+{
+    var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
+    var logger = loggerFactory.CreateLogger("DbHelper");
+    DebantErp.DAL.DbHelper.SetLogger(logger);
+    return new object();
+});
+
+var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+
+// ПРАВИЛЬНЫЙ ПОРЯДОК MIDDLEWARE:
+app.UseStaticFiles();
+app.UseRouting(); // ← ДОЛЖЕН БЫТЬ ПЕРВЫМ!
+
+app.UseCors("AllowAll");
+app.UseAuthentication();
+app.UseAuthorization();
+
+// Инициализация данных
+var encryptService = app.Services.GetRequiredService<DebantErp.BL.Auth.IEncrypt>();
+var seeder = new MockDataSeeder(
+    "Server=localhost;Port=5432;Database=debanterp;Username=admin;Password=test;",
+    encryptService
+);
+await seeder.SeedAsync();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();
