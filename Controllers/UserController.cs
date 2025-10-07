@@ -13,21 +13,6 @@ public class UserController : ControllerBase
         _auth = auth;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Register([FromBody] RegisterUserDto dto)
-    {
-        if (dto == null)
-        {
-            return BadRequest("Данные отсутствуют.");
-        }
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        //        await _auth.ValidateEmail(dto.Email ?? "");
-        var userId = await _auth.CreateUser(dto);
-        return Ok(userId);
-    }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUser(int id)

@@ -2,6 +2,7 @@ using DebantErp.DAL;
 using DebantErp.DAL.Models;
 using DebantErp.Dtos;
 using DebantErp.Rdos;
+using System.ComponentModel.DataAnnotations;
 
 namespace DebantErp.BL.Auth
 {
@@ -17,28 +18,22 @@ namespace DebantErp.BL.Auth
             _encrypt = encrypt;
         }
 
-        public async Task<int> CreateUser(RegisterUserDto dto)
+        public async Task<int> CreateUser(UserModel user)
         {
-            if (dto == null)
+            if (user == null)
             {
-                throw new ArgumentNullException(nameof(dto));
+                throw new ArgumentNullException(nameof(user));
             }
-            var model = new UserModel
-            {
-                FirstName = dto.FirstName ?? "",
-                LastName = dto.LastName ?? "",
-                Phone = dto.Phone ?? "",
-                Role = UserRoleEnum.User,
-                Email = dto.Email ?? "",
-                Salt = Guid.NewGuid().ToString(),
-                Status = UserStatusEnum.NeedToApprove,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
-            };
-            model.Password = _encrypt.HashPassword(dto.Password ?? "", model.Salt);
+                user.Salt = Guid.NewGuid().ToString();
+                user.Status = UserStatusEnum.NeedToApprove;
+                user.CreatedAt = DateTime.Now;
+                user.UpdatedAt = DateTime.Now;
+            
+            user.Password = _encrypt.HashPassword(user.Password ?? "", user.Salt);
 
-            System.Console.WriteLine(model);
-            return await _authDAL.Create(model);
+            System.Console.WriteLine(user);
+            var id = await _authDAL.Create(user);
+            return id;
         }
 
         public async Task<int> Authentificate(string email, string password, bool rememberMe)
@@ -69,46 +64,47 @@ namespace DebantErp.BL.Auth
             return userRdo;
         }
 
-        public async Task<int> UpdateUser(int id, UpdateUserDto dto)
+        public async Task<int> UpdateUser(int id, UpdateUserDto model)
         {
             var user = await GetUser(id);
             var updatedUser = new UserModel
             {};
-              if (!string.IsNullOrEmpty(dto.FirstName))
+              if (!string.IsNullOrEmpty(model.FirstName))
               {
-                  updatedUser.FirstName = dto.FirstName;} else {updatedUser.FirstName = user.FirstName;}
+                  updatedUser.FirstName = model.FirstName;} else {updatedUser.FirstName = user.FirstName;}
 
-              if (!string.IsNullOrEmpty(dto.LastName)){
-                  updatedUser.LastName = dto.LastName;} else {
+              if (!string.IsNullOrEmpty(model.LastName)){
+                  updatedUser.LastName = model.LastName;} else {
                   updatedUser.LastName = user.LastName;
               }
-              if (!string.IsNullOrEmpty(dto.Phone)){
-                  updatedUser.Phone = dto.Phone;} else {
+              if (!string.IsNullOrEmpty(model.Phone)){
+                  updatedUser.Phone = model.Phone;} else {
                   updatedUser.Phone = user.Phone;
               }
-              if (dto.Role != null && Enum.IsDefined(typeof(UserRoleEnum), dto.Role.Value)){
-                  updatedUser.Role = dto.Role.Value;} else {
+              if (model.Role != null && Enum.IsDefined(typeof(UserRoleEnum), model.Role.Value)){
+                  updatedUser.Role = model.Role.Value;} else {
                   updatedUser.Role = user.Role;
               }
-              if (!string.IsNullOrEmpty(dto.Email)){
-                  updatedUser.Email = dto.Email;} else {
+              if (!string.IsNullOrEmpty(model.Email)){
+                  updatedUser.Email = model.Email;} else {
                   updatedUser.Email = user.Email;
               }
-              if (dto.Status != null && Enum.IsDefined(typeof(UserStatusEnum), dto.Status.Value)){
-                  updatedUser.Status = dto.Status.Value;} else {
+              if (model.Status != null && Enum.IsDefined(typeof(UserStatusEnum), model.Status.Value)){
+                  updatedUser.Status = model.Status.Value;} else {
                   updatedUser.Status = user.Status;
               }
 
             return await _authDAL.Update(updatedUser);
         }
 
-        public async Task ValidateEmail(string email)
+        public async Task <ValidationResult?> ValidateEmail(string email)
         {
             var user = await _authDAL.Get(email);
             if (user.Id != null)
             {
-                throw new DuplicateEmailException();
+                return new ValidationResult("Пользователь с таким email уже существует.");
             }
+            return null;
         }
     }
 }
