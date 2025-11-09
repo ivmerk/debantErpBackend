@@ -11,10 +11,13 @@ public class Auth : IAuth
 
     private readonly IEncrypt _encrypt;
 
-    public Auth(IAuthDAL authDAL, IEncrypt encrypt)
+  private readonly IHttpContextAccessor _httpContextAccessor;
+    public Auth(IAuthDAL authDAL, IEncrypt encrypt, IHttpContextAccessor httpContextAccessor)
     {
         _authDAL = authDAL;
         _encrypt = encrypt;
+        _httpContextAccessor = httpContextAccessor;
+
     }
 
     public async Task<int> CreateUser(UserModel user)
@@ -35,6 +38,10 @@ public class Auth : IAuth
         return id;
     }
 
+    public void Login(int id)
+    {
+        _httpContextAccessor.HttpContext?.Session.SetInt32("userid", id);
+    }
     public async Task<int> Authentificate(string email, string password, bool rememberMe)
     {
         var user = await _authDAL.Get(email);

@@ -3,15 +3,14 @@ using DebantErp.Rdos;
 using System.ComponentModel.DataAnnotations;
 using DebantErp.DAL.Models;
 
-namespace DebantErp.BL.Auth
+namespace DebantErp.BL.Auth;
+public interface IAuth
 {
-    public interface IAuth
-    {
-        Task<int> CreateUser(UserModel model);
-        Task<int> Authentificate(string email, string password, bool rememberMe);
-        Task<UserRdo> GetUser(int id);
-        Task<int> UpdateUser(int id, UpdateUserDto dto);
-        Task<ValidationResult?> ValidateEmail(string email);
+    Task<int> CreateUser(UserModel model);
+    void Login (int id);
+    Task<int> Authentificate(string email, string password, bool rememberMe);
+    Task<UserRdo> GetUser(int id);
+    Task<int> UpdateUser(int id, UpdateUserDto dto);
+    Task<ValidationResult?> ValidateEmail(string email);
 
-    }
 }
