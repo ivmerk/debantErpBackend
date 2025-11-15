@@ -22,6 +22,7 @@ public class Auth : IAuth
 
     public async Task<int> CreateUser(UserModel user)
     {
+        System.Console.WriteLine(user);
         if (user == null)
         {
             throw new ArgumentNullException(nameof(user));
@@ -33,7 +34,6 @@ public class Auth : IAuth
         
         user.Password = _encrypt.HashPassword(user.Password ?? "", user.Salt);
 
-        System.Console.WriteLine(user);
         var id = await _authDAL.Create(user);
         return id;
     }

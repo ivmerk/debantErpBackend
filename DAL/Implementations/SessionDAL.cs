@@ -6,7 +6,7 @@ public class SessionDAL : ISessionDAL
     public async Task<List<SessionModel>> Get()
     {
         var result = await DbHelper.QueryAsync<SessionModel>(
-            "SELECT * FROM DbSession"
+            "SELECT * FROM DbSession", new { }
         );
         return result.ToList();
     }

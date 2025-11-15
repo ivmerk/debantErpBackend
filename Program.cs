@@ -6,6 +6,7 @@ using DebantErp.MockData;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddHttpContextAccessor();
 // Add services to the container.
 builder.Services.AddSingleton<IAuthDAL, AuthDAL>();
 builder.Services.AddSingleton<IEmployeeDAL, EmployeeDAL>();
@@ -22,6 +23,7 @@ builder.Services.AddScoped<IEmployeeDetails, EmployeeDetails>();
 builder.Services.AddScoped<IEmployeeSpecialityAssignment, EmployeeSpecialityAssignment>();
 builder.Services.AddScoped<DebantErp.BL.Speciality.ISpeciality, DebantErp.BL.Speciality.Speciality>();
 builder.Services.AddScoped<DebantErp.BL.Order.IOrder, DebantErp.BL.Order.Order>();
+builder.Services.AddScoped<DebantErp.BL.Auth.IAuth, DebantErp.BL.Auth.Auth>();
 builder.Services.AddScoped<DebantErp.BL.OrderLaborCost.IOrderLaborCost, DebantErp.BL.OrderLaborCost.OrderLostCost>();
 
 builder.Services.AddSingleton(provider =>

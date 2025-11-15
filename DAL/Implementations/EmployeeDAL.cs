@@ -20,9 +20,6 @@ namespace DebantErp.DAL
                 "SELECT * FROM employees WHERE id = @id",
                 new { id }
             );
-            Console.WriteLine(
-                JsonSerializer.Serialize(result, new JsonSerializerOptions { WriteIndented = true })
-            );
             return result.FirstOrDefault() ?? new EmployeeModel();
         }
 
