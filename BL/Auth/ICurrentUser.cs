@@ -1,5 +1,5 @@
 namespace DebantErp.BL.Auth;
-interface ICurrentUser
-    {
+public interface ICurrentUser
+{
   bool IsLoggedIn();
-    }
+}
