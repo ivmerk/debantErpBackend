@@ -42,14 +42,16 @@ public class Auth : IAuth
     {
         _httpContextAccessor.HttpContext?.Session.SetInt32("userid", id);
     }
-    public async Task<int> Authentificate(string email, string password, bool rememberMe)
+        public async Task<int> Authentificate(string email, string password, bool rememberMe)
     {
-        var user = await _authDAL.Get(email);
-        if (user.Id != null)
-        {
-            return user.Id ?? -1;
-        }
-        throw new AuthorizationException();
+      var user = await _authDAL.Get(email);
+
+      if (user.Id != null && user.Password == _encrypt.HashPassword(password, user.Salt))
+      {
+        Login(user.Id.Value);
+        return user.Id.Value;
+      }
+      throw new AuthorizationException();
     }
 
     public async Task<UserRdo> GetUser(int id)
